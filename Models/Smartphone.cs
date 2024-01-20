@@ -1,16 +1,18 @@
+using System;
+using System.Speech.Synthesis;
+
 namespace DesafioPOO.Models
 {
     public abstract class Smartphone
     {
         public string Numero { get; set; }
-        // TODO: Implementar as propriedades faltantes de acordo com o diagrama
         private string Modelo { get; set; }
         private string IMEI { get; set; }
         private int Memoria { get; set; }
+
         public Smartphone(string numero, string modelo, string imei, int memoria)
         {
             Numero = numero;
-            // TODO: Passar os parâmetros do construtor para as propriedades
             Modelo = modelo;
             IMEI = imei;
             Memoria = memoria;
@@ -19,6 +21,9 @@ namespace DesafioPOO.Models
         public void Ligar()
         {
             Console.WriteLine("Ligando...");
+
+            // Reproduzir o arquivo de áudio ao ligar
+            ReproduzirAudio("Piririm Piririm Piririm Alguem ligou pra mim Quem é?");
         }
 
         public void ReceberLigacao()
@@ -28,5 +33,22 @@ namespace DesafioPOO.Models
 
         public abstract void InstalarAplicativo(string nomeApp);
 
+        // Método para reproduzir um arquivo de áudio
+        private void ReproduzirAudio(string Audio)
+        {
+            try
+            {
+                using (SpeechSynthesizer synth = new SpeechSynthesizer()) // metodo da biblioteca instanciada
+                {
+                    synth.SetOutputToDefaultAudioDevice();
+                    synth.Speak($"{Audio}");
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao reproduzir áudio: {ex.Message}");
+            }
+        }
     }
 }
